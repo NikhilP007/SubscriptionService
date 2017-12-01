@@ -6,16 +6,6 @@ var bodyParser = require('body-parser');
 env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
 envConfig = require('./env')[env];
 var mongodb = require('mongodb').MongoClient;
-var whitelist = ['http://localhost:3000']
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
 app.use(bodyParser.urlencoded({
     extended: true
   }));
@@ -59,7 +49,7 @@ app.post("/subscription", function(req,res){
 
   var amqp = require('amqplib');
   
-  amqp.connect('amqp://localhost').then(function(conn) {
+  amqp.connect('amqp://admin:admin@ec2-13-127-47-215.ap-south-1.compute.amazonaws.com').then(function(conn) {
     // process.once('SIGINT', function() { conn.close(); });
     return conn.createChannel().then(function(ch) {
       var ok = ch.assertExchange('users', 'fanout', {durable: true});
